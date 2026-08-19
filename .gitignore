@@ -1,0 +1,17 @@
+﻿# Data files (qua lon cho GitHub)
+datasource/
+*.csv
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
