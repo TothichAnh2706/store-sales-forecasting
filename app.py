@@ -6,7 +6,8 @@ import os
 
 st.set_page_config(page_title="Store Sales Forecasting", page_icon="🛒", layout="wide")
 
-BASE_DIR = r"F:\realtime store"
+# Duong dan tuong doi - hoat dong ca local lan Streamlit Cloud
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 @st.cache_resource
 def load_model():
@@ -35,28 +36,28 @@ if not model_loaded:
     st.error(f"Khong tai duoc model!\nLoi: {load_error}")
     st.stop()
 
-st.success("Model loaded thanh cong!")
+st.success("✅ Model loaded thanh cong!")
 
 with st.form("prediction_form"):
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.subheader("Cua hang")
+        st.subheader("🏪 Cua hang")
         store_nbr  = st.slider("Store number", 1, 54, 1)
         store_type = st.selectbox("Loai cua hang", ["A","B","C","D","E"], index=3)
         cluster    = st.slider("Cluster", 1, 17, 8)
         city       = st.selectbox("Thanh pho", CITIES, index=CITIES.index("Quito"))
         state      = st.selectbox("Bang/Tinh", STATES, index=STATES.index("Pichincha"))
     with col2:
-        st.subheader("San pham")
+        st.subheader("📦 San pham")
         family      = st.selectbox("Nhom hang", FAMILIES)
         onpromotion = st.number_input("So SP khuyen mai", 0, 742, 0)
         isholiday   = st.radio("Ngay le?", [0, 1], format_func=lambda x: "Co" if x else "Khong", horizontal=True)
     with col3:
-        st.subheader("Kinh te")
+        st.subheader("📊 Kinh te")
         dcoilwtico       = st.slider("Gia dau (USD)", 26.19, 110.62, 53.19, step=0.5)
         num_transactions = st.number_input("So giao dich", 0, 9000, 1400)
     st.divider()
-    submitted = st.form_submit_button("Du doan doanh thu", use_container_width=True, type="primary")
+    submitted = st.form_submit_button("🔮 Du doan doanh thu", use_container_width=True, type="primary")
 
 if submitted:
     input_df = pd.DataFrame([{
@@ -70,17 +71,17 @@ if submitted:
         pred = float(np.maximum(model.predict(X)[0], 0))
         st.divider()
         c1, c2, c3 = st.columns(3)
-        c1.metric("Doanh thu du doan", f"{pred:,.2f} don vi")
-        c2.metric("Cua hang", f"#{store_nbr} (type {store_type})")
-        c3.metric("Nhom hang", family)
+        c1.metric("📦 Doanh thu du doan", f"{pred:,.2f} don vi")
+        c2.metric("🏪 Cua hang", f"#{store_nbr} (type {store_type})")
+        c3.metric("🛍️ Nhom hang", family)
         if pred > 5000:
-            st.success("Doanh thu cao! Chuan bi hang day du.")
+            st.success("🔥 Doanh thu cao! Chuan bi hang day du.")
         elif pred == 0:
             st.info("Du doan = 0: Mat hang nay co the khong ban tai cua hang nay ngay do.")
         else:
-            st.success("Du doan thanh cong!")
+            st.success("✅ Du doan thanh cong!")
     except Exception as e:
-        st.error(f"Loi khi du doan: {e}")
+        st.error(f"Loi: {e}")
 
 st.divider()
-st.caption("Model: XGBoost | Store Sales Time Series Forecasting (Kaggle)")
+st.caption("Model: XGBoost | Store Sales Time Series Forecasting (Kaggle) | Corporacion Favorita Ecuador")
