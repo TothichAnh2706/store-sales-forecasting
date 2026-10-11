@@ -41,7 +41,7 @@ st.success("✅ Model loaded thành công!")
 with st.form("prediction_form"):
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.subheader("🏪 Của hàng")
+        st.subheader("🏪 Cửa hàng")
         store_nbr  = st.slider("Store number", 1, 54, 1)
         store_type = st.selectbox("Loại cửa hàng", ["A","B","C","D","E"], index=3)
         cluster    = st.slider("Cluster", 1, 17, 8)
@@ -51,7 +51,7 @@ with st.form("prediction_form"):
         st.subheader("📦 Sản phẩm")
         family      = st.selectbox("Nhóm hàng", FAMILIES)
         onpromotion = st.number_input("Số SP khuyến mại", 0, 742, 0)
-        isholiday   = st.radio("Ngày lễ?", [0, 1], format_func=lambda x: "Co" if x else "Khong", horizontal=True)
+        isholiday   = st.radio("Ngày lễ?", [0, 1], format_func=lambda x: "Có" if x else "Không", horizontal=True)
     with col3:
         st.subheader("📊 Kinh tế")
         dcoilwtico       = st.slider("Giá dầu (USD)", 26.19, 110.62, 53.19, step=0.5)
